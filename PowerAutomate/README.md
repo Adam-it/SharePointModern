@@ -1,0 +1,1 @@
+- GetUserMember -> this Flow gets users mail from SharePoint group and also in SP group was present an AD group the flow takes members from that AD group as well
