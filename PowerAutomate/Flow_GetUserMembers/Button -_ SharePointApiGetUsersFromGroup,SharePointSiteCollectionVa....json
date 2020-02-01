@@ -1,0 +1,420 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "logicAppName": {
+            "type": "String",
+            "metadata": {
+                "description": "Name of the logic app."
+            }
+        },
+        "logicAppLocation": {
+            "defaultValue": "[resourceGroup().location]",
+            "allowedValues": [
+                "eastasia",
+                "southeastasia",
+                "centralus",
+                "eastus",
+                "eastus2",
+                "westus",
+                "northcentralus",
+                "southcentralus",
+                "northeurope",
+                "westeurope",
+                "japanwest",
+                "japaneast",
+                "brazilsouth",
+                "australiaeast",
+                "australiasoutheast",
+                "southindia",
+                "centralindia",
+                "westindia",
+                "canadacentral",
+                "canadaeast",
+                "westcentralus",
+                "westus2",
+                "[resourceGroup().location]"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Location of the logic app."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('logicAppName')]",
+            "location": "[parameters('logicAppLocation')]",
+            "properties": {
+                "state": "Disabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        },
+                        "$authentication": {
+                            "defaultValue": {},
+                            "type": "SecureObject"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Button",
+                            "inputs": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": []
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "SharePointApiGetUsersFromGroup": {
+                            "runAfter": {
+                                "UserMailArr": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "metadata": {
+                                "flowSystemMetadata": {
+                                    "swaggerOperationId": "HttpRequest"
+                                }
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$connections']['sharepointonline']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "method": "GET",
+                                    "uri": "/_api/Web/SiteGroups/GetByName('@{variables('SharePointGroupName')}')/users"
+                                },
+                                "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SharePointSiteCollection')))}/httprequest",
+                                "authentication": {
+                                    "type": "Raw",
+                                    "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                                }
+                            }
+                        },
+                        "SharePointSiteCollectionVar": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SharePointSiteCollection",
+                                        "type": "String",
+                                        "value": "https://tenanttocheck.sharepoint.com/sites/DevSite"
+                                    }
+                                ]
+                            }
+                        },
+                        "SharePointGroupNameVar": {
+                            "runAfter": {
+                                "SharePointSiteCollectionVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SharePointGroupName",
+                                        "type": "String",
+                                        "value": "testSPGroup"
+                                    }
+                                ]
+                            }
+                        },
+                        "Przeanalizuj_dane_JSON": {
+                            "runAfter": {
+                                "SharePointApiGetUsersFromGroup": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('SharePointApiGetUsersFromGroup')",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "d": {
+                                            "type": "object",
+                                            "properties": {
+                                                "results": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "__metadata": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "uri": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "type": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "Alerts": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "__deferred": {
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "uri": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "Groups": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "__deferred": {
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "uri": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "Id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "IsHiddenInUI": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "LoginName": {
+                                                                "type": "string"
+                                                            },
+                                                            "Title": {
+                                                                "type": "string"
+                                                            },
+                                                            "PrincipalType": {
+                                                                "type": "integer"
+                                                            },
+                                                            "Email": {
+                                                                "type": "string"
+                                                            },
+                                                            "Expiration": {
+                                                                "type": "string"
+                                                            },
+                                                            "IsEmailAuthenticationGuestUser": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "IsShareByEmailGuestUser": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "IsSiteAdmin": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "__metadata",
+                                                            "Alerts",
+                                                            "Groups",
+                                                            "Id",
+                                                            "IsHiddenInUI",
+                                                            "LoginName",
+                                                            "Title",
+                                                            "PrincipalType",
+                                                            "Email",
+                                                            "Expiration",
+                                                            "IsEmailAuthenticationGuestUser",
+                                                            "IsShareByEmailGuestUser",
+                                                            "IsSiteAdmin",
+                                                            "UserId",
+                                                            "UserPrincipalName"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "ForEach": {
+                            "foreach": "@body('Przeanalizuj_dane_JSON')?['d']?['results']",
+                            "actions": {
+                                "SetGroupElementVar": {
+                                    "runAfter": {},
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                        "name": "GroupElement",
+                                        "value": "@items('ForEach')?['LoginName']"
+                                    }
+                                },
+                                "CheckIfUser": {
+                                    "actions": {
+                                        "ApplyToArr": {
+                                            "runAfter": {},
+                                            "type": "AppendToArrayVariable",
+                                            "inputs": {
+                                                "name": "UserMailArr",
+                                                "value": "@last(split(variables('GroupElement'),'|membership|'))"
+                                            }
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "SetGroupElementVar": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {
+                                            "Pobierz_członków_grupy": {
+                                                "runAfter": {},
+                                                "metadata": {
+                                                    "flowSystemMetadata": {
+                                                        "swaggerOperationId": "GetGroupMembers"
+                                                    }
+                                                },
+                                                "type": "ApiConnection",
+                                                "inputs": {
+                                                    "host": {
+                                                        "connection": {
+                                                            "name": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$connections']['azuread']['connectionId']"
+                                                        }
+                                                    },
+                                                    "method": "get",
+                                                    "path": "/v1.0/groups/@{encodeURIComponent(last(split(variables('GroupElement'),'|tenant|')))}/members",
+                                                    "authentication": {
+                                                        "type": "Raw",
+                                                        "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                                                    }
+                                                }
+                                            },
+                                            "ForEachADGroup": {
+                                                "foreach": "@body('Pobierz_członków_grupy')?['value']",
+                                                "actions": {
+                                                    "ApplyToArr2": {
+                                                        "runAfter": {},
+                                                        "type": "AppendToArrayVariable",
+                                                        "inputs": {
+                                                            "name": "UserMailArr",
+                                                            "value": "@items('ForEachADGroup')?['UserPrincipalName']"
+                                                        }
+                                                    }
+                                                },
+                                                "runAfter": {
+                                                    "Pobierz_członków_grupy": [
+                                                        "Succeeded"
+                                                    ]
+                                                },
+                                                "type": "Foreach"
+                                            }
+                                        }
+                                    },
+                                    "expression": {
+                                        "contains": [
+                                            "@variables('GroupElement')",
+                                            "|membership|"
+                                        ]
+                                    },
+                                    "type": "If"
+                                }
+                            },
+                            "runAfter": {
+                                "Przeanalizuj_dane_JSON": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "GroupElementVar": {
+                            "runAfter": {
+                                "SharePointGroupNameVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "GroupElement",
+                                        "type": "String"
+                                    }
+                                ]
+                            }
+                        },
+                        "UserMailArr": {
+                            "runAfter": {
+                                "GroupElementVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "UserMailArr",
+                                        "type": "Array"
+                                    }
+                                ]
+                            }
+                        },
+                        "OutputVar": {
+                            "runAfter": {
+                                "ForEach": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "output",
+                                        "type": "String",
+                                        "value": "@{join(variables('UserMailArr'), ';')}"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {},
+                "runtimeConfiguration": {
+                    "lifetime": {
+                        "unit": "Day",
+                        "count": 30
+                    },
+                    "collections": {
+                        "maximumItemCount": 5000
+                    },
+                    "performanceProfile": {
+                        "throttles": {
+                            "mode": "Low"
+                        }
+                    },
+                    "retryPolicy": {
+                        "type": "Exponential",
+                        "interval": "PT5M",
+                        "count": 2,
+                        "minimumInterval": "PT5M",
+                        "maximumInterval": "PT1H"
+                    }
+                }
+            }
+        }
+    ]
+}
