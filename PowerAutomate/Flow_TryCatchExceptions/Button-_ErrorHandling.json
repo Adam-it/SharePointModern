@@ -1,0 +1,301 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "logicAppName": {
+            "type": "String",
+            "metadata": {
+                "description": "Name of the logic app."
+            }
+        },
+        "logicAppLocation": {
+            "defaultValue": "[resourceGroup().location]",
+            "allowedValues": [
+                "eastasia",
+                "southeastasia",
+                "centralus",
+                "eastus",
+                "eastus2",
+                "westus",
+                "northcentralus",
+                "southcentralus",
+                "northeurope",
+                "westeurope",
+                "japanwest",
+                "japaneast",
+                "brazilsouth",
+                "australiaeast",
+                "australiasoutheast",
+                "southindia",
+                "centralindia",
+                "westindia",
+                "canadacentral",
+                "canadaeast",
+                "westcentralus",
+                "westus2",
+                "[resourceGroup().location]"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Location of the logic app."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('logicAppName')]",
+            "location": "[parameters('logicAppLocation')]",
+            "properties": {
+                "state": "Disabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        },
+                        "$authentication": {
+                            "defaultValue": {},
+                            "type": "SecureObject"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Button",
+                            "inputs": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": []
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "SPSiteUrlVar": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SPSiteUrl",
+                                        "type": "String",
+                                        "value": "https://tenanttocheck.sharepoint.com/sites/DevSite"
+                                    }
+                                ]
+                            }
+                        },
+                        "SPListNameVar": {
+                            "runAfter": {
+                                "SPSiteUrlVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SPListName",
+                                        "type": "String",
+                                        "value": "SomeListThatDoesNotExists"
+                                    }
+                                ]
+                            }
+                        },
+                        "SPApiGetListItems": {
+                            "runAfter": {
+                                "HttpResultVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "metadata": {
+                                "flowSystemMetadata": {
+                                    "swaggerOperationId": "HttpRequest"
+                                }
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$connections']['sharepointonline']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "method": "GET",
+                                    "uri": "/_api/web/lists/GetByTitle('@{variables('SPListName')}')/items"
+                                },
+                                "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SPSiteUrl')))}/httprequest",
+                                "authentication": {
+                                    "type": "Raw",
+                                    "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                                }
+                            }
+                        },
+                        "Success": {
+                            "actions": {
+                                "SetResultSuccess": {
+                                    "runAfter": {},
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                        "name": "FlowResult",
+                                        "value": "@{body('SPApiGetListItems')}"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "SPApiGetListItems": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Scope"
+                        },
+                        "Failure": {
+                            "actions": {
+                                "Przeanalizuj_dane_JSON": {
+                                    "runAfter": {},
+                                    "type": "ParseJson",
+                                    "inputs": {
+                                        "content": "@body('SPApiGetListItems')",
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "integer"
+                                                },
+                                                "source": {
+                                                    "type": "string"
+                                                },
+                                                "errors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "SetHttpResultFailure": {
+                                    "runAfter": {
+                                        "Przeanalizuj_dane_JSON": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                        "name": "HttpResult",
+                                        "value": "@{body('Przeanalizuj_dane_JSON')?['status']}"
+                                    }
+                                },
+                                "Przełącznik": {
+                                    "runAfter": {
+                                        "SetHttpResultFailure": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "cases": {
+                                        "400": {
+                                            "case": 400,
+                                            "actions": {}
+                                        },
+                                        "404": {
+                                            "case": 404,
+                                            "actions": {}
+                                        }
+                                    },
+                                    "default": {
+                                        "actions": {}
+                                    },
+                                    "expression": "@variables('HttpResult')",
+                                    "type": "Switch"
+                                }
+                            },
+                            "runAfter": {
+                                "SPApiGetListItems": [
+                                    "Failed",
+                                    "Skipped",
+                                    "TimedOut"
+                                ]
+                            },
+                            "type": "Scope"
+                        },
+                        "FlowResultVar": {
+                            "runAfter": {
+                                "SPListNameVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "FlowResult",
+                                        "type": "String"
+                                    }
+                                ]
+                            }
+                        },
+                        "Finall": {
+                            "actions": {},
+                            "runAfter": {
+                                "SPApiGetListItems": [
+                                    "Succeeded",
+                                    "Failed",
+                                    "Skipped",
+                                    "TimedOut"
+                                ]
+                            },
+                            "type": "Scope"
+                        },
+                        "HttpResultVar": {
+                            "runAfter": {
+                                "FlowResultVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "HttpResult",
+                                        "type": "String"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "parameters": {},
+                "runtimeConfiguration": {
+                    "lifetime": {
+                        "unit": "Day",
+                        "count": 30
+                    },
+                    "collections": {
+                        "maximumItemCount": 5000
+                    },
+                    "performanceProfile": {
+                        "throttles": {
+                            "mode": "Low"
+                        }
+                    },
+                    "retryPolicy": {
+                        "type": "Exponential",
+                        "interval": "PT5M",
+                        "count": 2,
+                        "minimumInterval": "PT5M",
+                        "maximumInterval": "PT1H"
+                    }
+                }
+            }
+        }
+    ]
+}
