@@ -1,0 +1,376 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "logicAppName": {
+            "type": "String",
+            "metadata": {
+                "description": "Name of the logic app."
+            }
+        },
+        "logicAppLocation": {
+            "defaultValue": "[resourceGroup().location]",
+            "allowedValues": [
+                "eastasia",
+                "southeastasia",
+                "centralus",
+                "eastus",
+                "eastus2",
+                "westus",
+                "northcentralus",
+                "southcentralus",
+                "northeurope",
+                "westeurope",
+                "japanwest",
+                "japaneast",
+                "brazilsouth",
+                "australiaeast",
+                "australiasoutheast",
+                "southindia",
+                "centralindia",
+                "westindia",
+                "canadacentral",
+                "canadaeast",
+                "westcentralus",
+                "westus2",
+                "[resourceGroup().location]"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Location of the logic app."
+            }
+        },
+        "sharepointonline_Connection_Name": {
+            "defaultValue": "sharepointonline",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the connection."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('logicAppName')]",
+            "location": "[parameters('logicAppLocation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('sharepointonline_Connection_Name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        },
+                        "$authentication": {
+                            "defaultValue": {},
+                            "type": "SecureObject"
+                        }
+                    },
+                    "triggers": {
+                        "Po_utworzeniu_lub_zmodyfikowaniu_elementu": {
+                            "recurrence": {
+                                "frequency": "Minute",
+                                "interval": 5
+                            },
+                            "splitOn": "@triggerBody()?['value']",
+                            "metadata": {
+                                "flowSystemMetadata": {
+                                    "swaggerOperationId": "GetOnUpdatedItems"
+                                }
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://tenanttocheck.sharepoint.com/sites/DevSite'))}/tables/@{encodeURIComponent(encodeURIComponent('37a7fde0-6103-4f72-bc4f-41efb89d21c9'))}/onupdateditems",
+                                "authentication": "@parameters('$authentication')"
+                            }
+                        }
+                    },
+                    "actions": {
+                        "SpSiteUrlVar": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SpSiteUrl",
+                                        "type": "String",
+                                        "value": "https://tenanttocheck.sharepoint.com/sites/DevSite"
+                                    }
+                                ]
+                            }
+                        },
+                        "SpListNameVar": {
+                            "runAfter": {
+                                "SpSiteUrlVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SpListName",
+                                        "type": "String",
+                                        "value": "CustomListForFlow"
+                                    }
+                                ]
+                            }
+                        },
+                        "SpGroupNameVar": {
+                            "runAfter": {
+                                "SpListNameVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "SpGroupName",
+                                        "type": "String",
+                                        "value": "testSPGroup"
+                                    }
+                                ]
+                            }
+                        },
+                        "if": {
+                            "actions": {
+                                "GetRoleId": {
+                                    "runAfter": {
+                                        "HTTPGetEditRoleDefenition": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ParseJson",
+                                    "inputs": {
+                                        "content": "@body('HTTPGetEditRoleDefenition')",
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "d": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Id": {
+                                                            "type": "integer"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "HTTPGetGroupId": {
+                                    "runAfter": {
+                                        "GetRoleId": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "metadata": {
+                                        "flowSystemMetadata": {
+                                            "swaggerOperationId": "HttpRequest"
+                                        }
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "body": {
+                                            "method": "GET",
+                                            "uri": "/_api/web/sitegroups/getbyname('@{variables('SpGroupName')}')/id"
+                                        },
+                                        "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SpSiteUrl')))}/httprequest",
+                                        "authentication": "@parameters('$authentication')"
+                                    }
+                                },
+                                "GetGroupId": {
+                                    "runAfter": {
+                                        "HTTPGetGroupId": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ParseJson",
+                                    "inputs": {
+                                        "content": "@body('HTTPGetGroupId')",
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "d": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Id": {
+                                                            "type": "integer"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "HTTPAddEditPermissionOnItemForSpGroup": {
+                                    "runAfter": {
+                                        "GetGroupId": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "metadata": {
+                                        "flowSystemMetadata": {
+                                            "swaggerOperationId": "HttpRequest"
+                                        }
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "body": {
+                                            "method": "POST",
+                                            "uri": "/_api/web/lists/getbytitle('@{variables('SpListName')}')/items(@{triggerBody()?['ID']})/roleassignments/addroleassignment(principalid='@{body('GetGroupId')?['d']?['Id']}',roledefid='@{body('GetRoleId')?['d']?['Id']}')"
+                                        },
+                                        "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SpSiteUrl')))}/httprequest",
+                                        "authentication": "@parameters('$authentication')"
+                                    }
+                                },
+                                "HTTPBreakInheritanceOnItem": {
+                                    "runAfter": {},
+                                    "metadata": {
+                                        "flowSystemMetadata": {
+                                            "swaggerOperationId": "HttpRequest"
+                                        }
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "body": {
+                                            "method": "POST",
+                                            "uri": "/_api/web/lists/getbytitle('@{variables('SpListName')}')/items(@{triggerBody()?['ID']})/breakroleinheritance(false)"
+                                        },
+                                        "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SpSiteUrl')))}/httprequest",
+                                        "authentication": "@parameters('$authentication')"
+                                    }
+                                },
+                                "HTTPGetEditRoleDefenition": {
+                                    "runAfter": {
+                                        "HTTPBreakInheritanceOnItem": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "metadata": {
+                                        "flowSystemMetadata": {
+                                            "swaggerOperationId": "HttpRequest"
+                                        }
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "body": {
+                                            "method": "GET",
+                                            "uri": "/_api/web/roledefinitions/getbyname('Edycja')/id"
+                                        },
+                                        "path": "/datasets/@{encodeURIComponent(encodeURIComponent(variables('SpSiteUrl')))}/httprequest",
+                                        "authentication": "@parameters('$authentication')"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "SpGroupNameVar": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else": {
+                                "actions": {
+                                    "EndFlow_ItemNotApproved": {
+                                        "runAfter": {},
+                                        "type": "Terminate",
+                                        "inputs": {
+                                            "runStatus": "Cancelled"
+                                        }
+                                    }
+                                }
+                            },
+                            "expression": {
+                                "equals": [
+                                    "@triggerBody()?['{ModerationStatus}']",
+                                    "Approved"
+                                ]
+                            },
+                            "type": "If"
+                        }
+                    }
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "sharepointonline": {
+                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sharepointonline')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('sharepointonline_Connection_Name'))]",
+                                "connectionName": "[parameters('sharepointonline_Connection_Name')]"
+                            }
+                        }
+                    }
+                },
+                "runtimeConfiguration": {
+                    "lifetime": {
+                        "unit": "Day",
+                        "count": 30
+                    },
+                    "collections": {
+                        "maximumItemCount": 5000
+                    },
+                    "performanceProfile": {
+                        "throttles": {
+                            "mode": "Low"
+                        }
+                    },
+                    "retryPolicy": {
+                        "type": "Exponential",
+                        "interval": "PT5M",
+                        "count": 2,
+                        "minimumInterval": "PT5M",
+                        "maximumInterval": "PT1H"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('sharepointonline_Connection_Name')]",
+            "location": "[parameters('logicAppLocation')]",
+            "properties": {
+                "api": {
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sharepointonline')]"
+                },
+                "displayName": "[parameters('sharepointonline_Connection_Name')]"
+            }
+        }
+    ]
+}
