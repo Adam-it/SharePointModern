@@ -1,3 +1,4 @@
 - GetUserMember -> this Flow gets users mail from SharePoint group and also in SP group was present an AD group the flow takes members from that AD group as well
 - TryCatchExceptions -> this flow presents a solution to handle failures and success from HTTP requests. Also Final block is present that will run always regardless of the request status
 - BreakItemPermissionOnApproved -> this flow presents a solution to handle break item permission and manage permission on item after it was approved. The permissions on item get cleared and given group gets 'edit' role/permission on item
+- WhenIEnterOrLeave -> this flow is triggered when a user with flow app enters or leaves a marked area and saves the current datetime on a SharePoint List
