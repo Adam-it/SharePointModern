@@ -1,0 +1,30 @@
+check node version
+> node -v
+
+Once a project has been created with the Yeoman generator for the SharePoint Framework, execute the following command from within the root folder of the project.
+> gulp trust-dev-cert
+
+create folder 
+> md [folderName]
+
+run the Yeoman SharePoint Generator
+> yo @microsoft/sharepoint
+
+after creating webpart install developer certificate
+> gulp trust-dev-cert
+
+build preview of webpart with this on also we can install webpart in tenat workbench https://tenanttocheck.sharepoint.com/_layouts/15/workbench.aspx
+> gulp serve
+> gulp serve --nobrowser
+
+--nobrowser will not automatically launch the SharePoint Workbench as that's not needed in this case as we will host the web part directly in SharePoint page.
+
+after you run the command, npm scans the package.json file and installs the required dependencies.
+> npm i
+
+in order to package the solution for deploy to SharePoint online
+> gulp package-solution
+
+in order to prepare solution for shipping to sharepoint and to cdn use
+> gulp bundle --ship
+> gulp package-solution --ship
