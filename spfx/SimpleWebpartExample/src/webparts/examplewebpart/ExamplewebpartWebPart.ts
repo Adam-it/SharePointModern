@@ -15,8 +15,7 @@ import propertyPaneValidators from './propertyPane/propertyPaneValidators';
 import {propertyPaneDropdownValues} from './propertyPane/propertyPaneDropdownValues';
 
 import * as strings from 'ExamplewebpartWebPartStrings';
-import Examplewebpart from './components/Examplewebpart';
-import { IExamplewebpartProps } from './components/IExamplewebpartProps';
+import LayoutComponent from './components/LayoutComponent';
 
 export interface IExamplewebpartWebPartProps {
   description: string;
@@ -30,18 +29,7 @@ export interface IExamplewebpartWebPartProps {
 export default class ExamplewebpartWebPart extends BaseClientSideWebPart <IExamplewebpartWebPartProps> {
   
   public render(): void {
-    const element: React.ReactElement<IExamplewebpartProps> = React.createElement(
-      Examplewebpart,
-      {
-        description: this.properties.description,
-        propertyPaneSingleLineTextField: this.properties.propertyPaneSingleLineTextField,
-        propertyPaneMultiLineTextField: this.properties.propertyPaneMultiLineTextField,
-        propertyPaneCheckboxField: this.properties.propertyPaneCheckboxField,
-        propertyPaneDropdownField: this.properties.propertyPaneDropdownField,
-        propertyPaneToggleField: this.properties.propertyPaneToggleField
-      }
-    );
-
+    const element: React.ReactElement = React.createElement(LayoutComponent);
     ReactDom.render(element, this.domElement);
   }
 
