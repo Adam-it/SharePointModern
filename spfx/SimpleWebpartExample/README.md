@@ -1,17 +1,13 @@
 ## simplelearningexample
 
-This is where you include your WebPart documentation.
+this is a sample webpart that presents basic component management of react, use of fabric UI (Fluent UI) styles and controls, and contains a basic empty component for reause. The webpart uses theme styling in scss module
 
-### Building the code
+### exmaple:
+![](../Images/Spfx1Image1.png)
 
-```bash
-git clone the repo
-npm i
-npm i -g gulp
-gulp
-```
+![](../Images/Spfx1Image2.png)
 
-This package produces the following:
+### This package produces the following:
 
 * lib/* - intermediate-stage commonjs build artifacts
 * dist/* - the bundled script, along with other resources
@@ -19,8 +15,8 @@ This package produces the following:
 
 ### Build options
 
-gulp clean - TODO
-gulp test - TODO
-gulp serve - TODO
-gulp bundle - TODO
-gulp package-solution - TODO
+gulp clean
+gulp test
+gulp serve
+gulp bundle
+gulp package-solution
