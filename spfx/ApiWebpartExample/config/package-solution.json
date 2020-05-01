@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "api-webpart-example-client-side-solution",
+    "id": "03e9ec7b-4e92-473f-a88d-69106adb6df4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/api-webpart-example.sppkg"
+  }
+}

@@ -28,3 +28,9 @@ in order to package the solution for deploy to SharePoint online
 in order to prepare solution for shipping to sharepoint and to cdn use
 > gulp bundle --ship
 > gulp package-solution --ship
+
+
+---------------------
+
+start pnp spfx yeoman generator
+> yo @pnp/spfx
