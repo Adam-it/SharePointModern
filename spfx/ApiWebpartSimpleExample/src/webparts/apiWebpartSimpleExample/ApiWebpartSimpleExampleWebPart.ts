@@ -6,13 +6,11 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'ApiWebpartSimpleExampleWebPartStrings';
 import LayoutComponent from './components/LayoutComponent';
-import { ILayoutComponent } from './components/ILayoutComponent';
+import ILayoutComponent from './components/ILayoutComponent';
 
-export interface IApiWebpartSimpleExampleWebPartProps {
-  description: string;
-}
+export interface IApiWebpartSimpleExampleWebPartProps { }
 
-export default class ApiWebpartSimpleExampleWebPart extends BaseClientSideWebPart <IApiWebpartSimpleExampleWebPartProps> {
+export default class ApiWebpartSimpleExampleWebPart extends BaseClientSideWebPart<IApiWebpartSimpleExampleWebPartProps> {
 
   public render(): void {
     const element: React.ReactElement<ILayoutComponent> = React.createElement(

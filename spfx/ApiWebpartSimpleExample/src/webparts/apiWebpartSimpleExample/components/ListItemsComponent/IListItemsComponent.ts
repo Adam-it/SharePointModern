@@ -1,5 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
-export interface IListItemsComponent {
+export default interface IListItemsComponent {
     context: WebPartContext  
 }

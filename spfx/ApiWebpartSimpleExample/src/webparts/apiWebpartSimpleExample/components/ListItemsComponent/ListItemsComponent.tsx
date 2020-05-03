@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { IListItemsComponent } from './IListItemsComponent';
-import ListItemsController from '../../../controllers/ListItemsController';
+import IListItemsComponent from './IListItemsComponent';
+import ListItemsController from '../../controllers/ListItemsController';
 
 class ListItemsComponent extends React.Component<IListItemsComponent> {
 

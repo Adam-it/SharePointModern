@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as strings from 'ApiWebpartSimpleExampleWebPartStrings';
 import ListItemsComponent from './ListItemsComponent/ListItemsComponent'
-import { ILayoutComponent } from './ILayoutComponent';
+import ILayoutComponent from './ILayoutComponent';
 
 class LayoutComponent extends React.Component<ILayoutComponent> {
     render() {

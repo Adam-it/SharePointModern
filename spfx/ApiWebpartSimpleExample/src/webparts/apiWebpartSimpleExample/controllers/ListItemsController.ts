@@ -4,10 +4,11 @@ import {
 } from '@microsoft/sp-core-library';
 import {
     SPHttpClient,
-    SPHttpClientResponse,
-    ISPHttpClientOptions
+    SPHttpClientResponse
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
+import ISPListItem from '../model/ISPListItem';
+import MockTestApiWebpartListGetItems from '../mocks/MockTestApiWebpartListGetItems';
 
 class ListItemsController {
 
@@ -37,15 +38,15 @@ class ListItemsController {
      * title - list title
      * numberOfItems - how much items will be retrived max 5
      */
-    public getListItems(numberOfItems = 5) {
+    public getListItems(numberOfItems = 5): Promise<ISPListItem[]> {
         try {
             numberOfItems = numberOfItems > this._maxNumberOfItems ? this._maxNumberOfItems : numberOfItems;
 
-            if (this.isSharePointFramework()) {
-                this.getSPListItems(numberOfItems);
+            if (this._isSharePointFramework()) {
+                return this._getSPListItems(numberOfItems)
             }
             else {
-                console.log(`local workbench`);
+                return this._getMockListItems(numberOfItems)
             }
         }
         catch (ex) {
@@ -53,11 +54,26 @@ class ListItemsController {
         }
     }
 
-    private getSPListItems(numberOfItems: number) {
-        
+    private _getSPListItems(numberOfItems: number): Promise<ISPListItem[]> {
+        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('testApiWebpartList')/items?$top=${this._maxNumberOfItems}`;
+        return this._context.spHttpClient.get(url,
+            SPHttpClient.configurations.v1)
+            .then(response => {
+                return response.json();
+            })
+            .then(json => {
+                return json.value;
+            }) as Promise<ISPListItem[]>;
     }
 
-    private isSharePointFramework(): boolean {
+    private _getMockListItems(numberOfItems: number): Promise<ISPListItem[]> {
+        return MockTestApiWebpartListGetItems.get("")
+            .then((data: ISPListItem[]) => {
+                return data;
+            });
+    }
+
+    private _isSharePointFramework(): boolean {
         if (Environment.type == EnvironmentType.SharePoint || Environment.type == EnvironmentType.ClassicSharePoint)
             return true;
 
