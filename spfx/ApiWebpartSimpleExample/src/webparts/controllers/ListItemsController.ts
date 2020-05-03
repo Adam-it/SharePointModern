@@ -2,17 +2,30 @@ import {
     Environment,
     EnvironmentType
 } from '@microsoft/sp-core-library';
+import {
+    SPHttpClient,
+    SPHttpClientResponse,
+    ISPHttpClientOptions
+} from '@microsoft/sp-http';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
 
 class ListItemsController {
 
     private _listTitle: string;
     private _maxNumberOfItems = 5;
+    private _context: WebPartContext
 
-    constructor(listTitle: string) {
+    constructor(
+        listTitle: string,
+        context: WebPartContext) {
         try {
             if (!listTitle)
                 throw new Error(`title may not be null`);
             this._listTitle = listTitle
+
+            if (!context)
+                throw new Error(`context may not be null`);
+            this._context = context
         }
         catch (ex) {
             console.error(`class ListItemsController - error: ${ex}`);
@@ -27,12 +40,12 @@ class ListItemsController {
     public getListItems(numberOfItems = 5) {
         try {
             numberOfItems = numberOfItems > this._maxNumberOfItems ? this._maxNumberOfItems : numberOfItems;
-            
-            if (this.isSharePointFramework()){
-                console.log(`sharepoint`);
+
+            if (this.isSharePointFramework()) {
+                this.getSPListItems(numberOfItems);
             }
-            else{
-                console.log(`other`);
+            else {
+                console.log(`local workbench`);
             }
         }
         catch (ex) {
@@ -40,8 +53,11 @@ class ListItemsController {
         }
     }
 
+    private getSPListItems(numberOfItems: number) {
+        
+    }
+
     private isSharePointFramework(): boolean {
-        // ToDo add here a check if it is a sharepoint workbench not only local workbench
         if (Environment.type == EnvironmentType.SharePoint || Environment.type == EnvironmentType.ClassicSharePoint)
             return true;
 

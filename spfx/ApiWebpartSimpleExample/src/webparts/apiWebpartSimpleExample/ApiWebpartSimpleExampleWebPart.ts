@@ -4,15 +4,24 @@ import { Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'ApiwebpartexampleWebPartStrings';
+import * as strings from 'ApiWebpartSimpleExampleWebPartStrings';
 import LayoutComponent from './components/LayoutComponent';
+import { ILayoutComponent } from './components/ILayoutComponent';
 
-export interface IApiwebpartexampleWebPartProps {}
+export interface IApiWebpartSimpleExampleWebPartProps {
+  description: string;
+}
 
-export default class ApiwebpartexampleWebPart extends BaseClientSideWebPart <IApiwebpartexampleWebPartProps> {
+export default class ApiWebpartSimpleExampleWebPart extends BaseClientSideWebPart <IApiWebpartSimpleExampleWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement = React.createElement(LayoutComponent);
+    const element: React.ReactElement<ILayoutComponent> = React.createElement(
+      LayoutComponent,
+      {
+        context: this.context
+      }
+    );
+
     ReactDom.render(element, this.domElement);
   }
 
@@ -29,7 +38,7 @@ export default class ApiwebpartexampleWebPart extends BaseClientSideWebPart <IAp
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.WebpartTitle
           },
           groups: []
         }

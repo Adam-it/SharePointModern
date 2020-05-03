@@ -22,6 +22,9 @@ build preview of webpart with this on also we can install webpart in tenat workb
 after you run the command, npm scans the package.json file and installs the required dependencies.
 > npm i
 
+before You want to do package-solution to deploy to sharepoint
+> gulp bundle
+
 in order to package the solution for deploy to SharePoint online
 > gulp package-solution
 

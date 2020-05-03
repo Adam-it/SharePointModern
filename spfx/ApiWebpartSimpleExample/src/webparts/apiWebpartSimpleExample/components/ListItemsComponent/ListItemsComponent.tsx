@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IListItemsComponent } from './IListItemsComponent';
-import ListItemsController from '../../controllers/ListItemsController';
+import ListItemsController from '../../../controllers/ListItemsController';
 
 class ListItemsComponent extends React.Component<IListItemsComponent> {
 
@@ -12,7 +12,7 @@ class ListItemsComponent extends React.Component<IListItemsComponent> {
     }
 
     componentDidMount(){
-        let listItemsController = new ListItemsController("someList");
+        let listItemsController = new ListItemsController(`testApiWebpartList`, this.props.context);
         listItemsController.getListItems();
     }
 
