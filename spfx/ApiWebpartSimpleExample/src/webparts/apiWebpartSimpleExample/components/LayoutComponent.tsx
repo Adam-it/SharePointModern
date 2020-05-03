@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as strings from 'ApiWebpartSimpleExampleWebPartStrings';
-import ListItemsComponent from './ListItemsComponent/ListItemsComponent'
+import ListItemsComponent from './ListItemsComponent/ListItemsComponent';
 import ILayoutComponent from './ILayoutComponent';
 
 class LayoutComponent extends React.Component<ILayoutComponent> {
-    render() {
+    public render() {
         return (
             <React.Fragment>
                 <p>{strings.WebpartTitle}</p>
@@ -15,4 +15,4 @@ class LayoutComponent extends React.Component<ILayoutComponent> {
     }
 }
 
-export default LayoutComponent
+export default LayoutComponent;

@@ -4,7 +4,6 @@ import {
 } from '@microsoft/sp-core-library';
 import {
     SPHttpClient,
-    SPHttpClientResponse
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import ISPListItem from '../model/ISPListItem';
@@ -14,7 +13,7 @@ class ListItemsController {
 
     private _listTitle: string;
     private _maxNumberOfItems = 5;
-    private _context: WebPartContext
+    private _context: WebPartContext;
 
     constructor(
         listTitle: string,
@@ -22,11 +21,11 @@ class ListItemsController {
         try {
             if (!listTitle)
                 throw new Error(`title may not be null`);
-            this._listTitle = listTitle
+            this._listTitle = listTitle;
 
             if (!context)
                 throw new Error(`context may not be null`);
-            this._context = context
+            this._context = context;
         }
         catch (ex) {
             console.error(`class ListItemsController - error: ${ex}`);
@@ -43,10 +42,10 @@ class ListItemsController {
             numberOfItems = numberOfItems > this._maxNumberOfItems ? this._maxNumberOfItems : numberOfItems;
 
             if (this._isSharePointFramework()) {
-                return this._getSPListItems(numberOfItems)
+                return this._getSPListItems(numberOfItems);
             }
             else {
-                return this._getMockListItems(numberOfItems)
+                return this._getMockListItems(numberOfItems);
             }
         }
         catch (ex) {

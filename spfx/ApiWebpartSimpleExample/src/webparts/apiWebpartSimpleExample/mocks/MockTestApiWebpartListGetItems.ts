@@ -9,7 +9,7 @@ export default class MockTestApiWebpartListGetItems{
 
     public static get(url: string): Promise<ISPListItems[]>{
         return new Promise<ISPListItems[]>((resolve) => {
-            resolve(MockTestApiWebpartListGetItems._listItems)
+            resolve(MockTestApiWebpartListGetItems._listItems);
         });
-    };
+    }
 }
