@@ -5,4 +5,7 @@ export default interface IListItemsComponentState {
     listItems: ISPListItem[];
     columns: any[];
     listItemsController: ListItemsController;
+    titleTextField: string;
+    selectionDetails: string;
+    selectedListItems: ISPListItem[];
 }
