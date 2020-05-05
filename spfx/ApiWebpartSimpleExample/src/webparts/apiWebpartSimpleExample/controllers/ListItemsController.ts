@@ -15,6 +15,7 @@ class ListItemsController {
     private _listTitle: string;
     private _maxNumberOfItems = 5;
     private _context: WebPartContext;
+    private _mock: MockTestApiWebpartListGetItems;
 
     constructor(
         listTitle: string,
@@ -27,6 +28,9 @@ class ListItemsController {
             if (!context)
                 throw new Error(`context may not be null`);
             this._context = context;
+
+            if (!this._isSharePointFramework())
+                this._mock = new MockTestApiWebpartListGetItems();
         }
         catch (ex) {
             console.error(`class ListItemsController - error: ${ex}`);
@@ -41,7 +45,7 @@ class ListItemsController {
     }
 
     private _getSPListItems(numberOfItems: number): Promise<ISPListItem[]> {
-        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('testApiWebpartList')/items?$top=${this._maxNumberOfItems}&$orderby=Created desc`;
+        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('${this._listTitle}')/items?$top=${this._maxNumberOfItems}&$orderby=Created desc`;
         return this._context.spHttpClient.get(url,
             SPHttpClient.configurations.v1)
             .then(response => {
@@ -53,7 +57,7 @@ class ListItemsController {
     }
 
     private _getMockListItems(numberOfItems: number): Promise<ISPListItem[]> {
-        return MockTestApiWebpartListGetItems.get("")
+        return this._mock.get("")
             .then((data: ISPListItem[]) => {
                 return data;
             });
@@ -64,7 +68,7 @@ class ListItemsController {
             'Title': title
         });
 
-        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('testApiWebpartList')/items`;
+        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('${this._listTitle}')/items`;
         return this._context.spHttpClient.post(url,
             SPHttpClient.configurations.v1,
             {
@@ -83,6 +87,41 @@ class ListItemsController {
             }, (error: any) => {
                 return false;
             });
+    }
+
+    private _addMockListItem(title: string): Promise<boolean>{
+        return this._mock.add(title);
+    }
+
+    private _deleteListItems(itemId: number): Promise<void> {
+        let etag: string = undefined;
+        const url: string = `${this._context.pageContext.web.absoluteUrl}/_api/lists/GetByTitle('${this._listTitle}')/items(${itemId})`;
+        return this._context.spHttpClient.get(`${url}?$select=Id`, SPHttpClient.configurations.v1)
+            .then(response => {
+                etag = response.headers.get('ETag');
+                return response.json();
+            })
+            .then(json => {
+                return this._context.spHttpClient.post(url,  
+                    SPHttpClient.configurations.v1,  
+                    {  
+                        headers: {  
+                            'Accept': 'application/json;odata=nometadata',  
+                            'Content-type': 'application/json;odata=verbose',  
+                            'odata-version': '',  
+                            'IF-MATCH': etag,
+                            'X-HTTP-Method': 'DELETE'  
+                        }
+                    })
+                    .then((response: SPHttpClientResponse): void => {  
+                    }, (error: any): void => {  });
+            } , (error: any) => {
+                return false;
+            });
+    }
+
+    private _deleteMockListItems(itemId: number): Promise<void>{
+        return this._mock.delete(itemId);
     }
 
     /**
@@ -115,7 +154,7 @@ class ListItemsController {
                 return this._addSPListItem(title);
             }
             else {
-                throw new Error("not implemented"); //ToDo add mock to add item
+                return this._addMockListItem(title);
             }
         }
         catch (ex) {
@@ -126,59 +165,18 @@ class ListItemsController {
     /**
      * deleteListItems is a method that deletes list items
      */
-    public deleteListItems() {
-        // ToDo
-        /*
-private deleteItem(): void {  
-  if (!window.confirm('Are you sure you want to delete the latest item?')) {  
-    return;  
-  }  
-  
-  this.updateStatus('Loading latest items...');  
-  let latestItemId: number = undefined;  
-  let etag: string = undefined;  
-  this.getLatestItemId()  
-    .then((itemId: number): Promise<SPHttpClientResponse> => {  
-      if (itemId === -1) {  
-        throw new Error('No items found in the list');  
-      }  
-  
-      latestItemId = itemId;  
-      this.updateStatus(`Loading information about item ID: ${latestItemId}...`);  
-      return this.context.spHttpClient.get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('${this.properties.listName}')/items(${latestItemId})?$select=Id`,  
-        SPHttpClient.configurations.v1,  
-        {  
-          headers: {  
-            'Accept': 'application/json;odata=nometadata',  
-            'odata-version': ''  
-          }  
-        });  
-    })  
-    .then((response: SPHttpClientResponse): Promise<IListItem> => {  
-      etag = response.headers.get('ETag');  
-      return response.json();  
-    })  
-    .then((item: IListItem): Promise<SPHttpClientResponse> => {  
-      this.updateStatus(`Deleting item with ID: ${latestItemId}...`);  
-      return this.context.spHttpClient.post(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('${this.properties.listName}')/items(${item.Id})`,  
-        SPHttpClient.configurations.v1,  
-        {  
-          headers: {  
-            'Accept': 'application/json;odata=nometadata',  
-            'Content-type': 'application/json;odata=verbose',  
-            'odata-version': '',  
-            'IF-MATCH': etag,  
-            'X-HTTP-Method': 'DELETE'  
-          }  
-        });  
-    })  
-    .then((response: SPHttpClientResponse): void => {  
-      this.updateStatus(`Item with ID: ${latestItemId} successfully deleted`);  
-    }, (error: any): void => {  
-      this.updateStatus(`Error deleting item: ${error}`);  
-    });  
-}  
-        */
+    public deleteListItems(itemId: number): Promise<void> {
+        try {
+            if (this._isSharePointFramework()) {
+                return this._deleteListItems(itemId);
+            }
+            else {
+                return this._deleteMockListItems(itemId);
+            }
+        }
+        catch (ex) {
+            console.error(`getListItems - error: ${ex}`);
+        }
     }
 }
 

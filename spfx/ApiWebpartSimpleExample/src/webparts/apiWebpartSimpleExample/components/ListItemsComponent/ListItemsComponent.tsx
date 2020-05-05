@@ -95,7 +95,11 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
         if (this.state.selectedListItems.length == 0)
             alert("some items must be selected");
 
-        //ToDo -> use listItems controller to delete list
+        this.state.selectedListItems.forEach(item => {
+            this.state.listItemsController.deleteListItems(item.Id).then(result => {
+                this._getListItems();
+            });
+        });
     }
 
     public componentDidMount() {
