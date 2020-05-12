@@ -1,17 +1,11 @@
-## api-webpart-simple-example
+## apiwebpartsimpleexample
 
-This is where you include your WebPart documentation.
+this is a sample webpart that presents basic CRUD on SPList operation using SPHttpClient and PnP.js
 
-### Building the code
+### exmaple:
+![](../Images/Spfx2Image1.png)
 
-```bash
-git clone the repo
-npm i
-npm i -g gulp
-gulp
-```
-
-This package produces the following:
+### This package produces the following:
 
 * lib/* - intermediate-stage commonjs build artifacts
 * dist/* - the bundled script, along with other resources
@@ -19,8 +13,8 @@ This package produces the following:
 
 ### Build options
 
-gulp clean - TODO
-gulp test - TODO
-gulp serve - TODO
-gulp bundle - TODO
-gulp package-solution - TODO
+gulp clean
+gulp test
+gulp serve
+gulp bundle
+gulp package-solution
