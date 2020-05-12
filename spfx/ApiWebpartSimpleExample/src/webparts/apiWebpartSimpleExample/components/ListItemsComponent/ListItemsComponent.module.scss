@@ -1,0 +1,36 @@
+@import "~office-ui-fabric-react/dist/sass/References.scss";
+
+.ListItemsComponent {
+  .container {
+    max-width: 100%;
+    margin: 0px auto;
+  }
+
+  .row {
+    @include ms-Grid-row;
+    @include ms-fontColor-white;
+    padding: 20px;
+  }
+
+  .column {
+    @include ms-Grid-col;
+    @include ms-lg10;
+    @include ms-xl8;
+    @include ms-md12;
+  }
+
+  .title {
+    @include ms-font-xl;
+    color: "[theme: themePrimary, default: #a4262c]";
+  }
+
+  .subTitle {
+    @include ms-font-l;
+    color: "[theme: themePrimary, default: #a4262c]";
+  }
+
+  .description {
+    @include ms-font-l;
+    color: "[theme: themePrimary, default: #a4262c]";
+  }
+}

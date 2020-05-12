@@ -1,0 +1,32 @@
+To verify  Your spfx installed components use
+> spfx doctor
+
+Create site
+> spo site add --type CommunicationSite --url https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI --title siteCreatedByCLI
+
+Create field
+> spo field add --webUrl https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI --xml '<Field Type="Text" DisplayName="TextFieldAddedViaCLI" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Group="CLIColumns" ID="{6085e32a-339b-4da7-ab6d-c1e013e5ab27}" SourceID="{4f118c69-66e0-497c-96ff-d7855ce0713d}" StaticName="CLITextColumn" Name="CLITextColumn"></Field>'
+
+Create new CT that parent CT is list item
+> spo contenttype add --webUrl https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI --name 'SomeCTAddedViaCLI1' --id 0x01007926A45D687BA842B947286090B8F671 --group 'ctAddedViaCLI'
+
+Add field to CT
+> spo contenttype field set --webUrl https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI --contentTypeId 0x01007926A45D687BA842B947286090B8F671 --fieldId 6085e32a-339b-4da7-ab6d-c1e013e5ab27 --required false
+
+Create a new list
+> spo list add --title "ListAddedByCLI" --webUrl "https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI" --baseTemplate GenericList
+
+Add CT to list
+> spo list contenttype add --webUrl https://tenanttocheck.sharepoint.com/sites/siteCreatedByCLI --listTitle ListAddedByCLI --contentTypeId 0x01007926A45D687BA842B947286090B8F671
+
+
+nice report possible to generate
+> spo report activityfilecounts
+> spo report activitypages
+> spo report activityusercounts
+> spo report activityuserdetail
+> spo report siteusagedetail
+> spo report siteusagefilecounts
+> spo report siteusagepages
+> spo report siteusagesitecounts
+> spo report siteusagestorage                    
