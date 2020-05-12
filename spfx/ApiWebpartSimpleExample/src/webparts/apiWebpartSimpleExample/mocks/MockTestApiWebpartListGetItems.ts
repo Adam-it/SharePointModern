@@ -25,7 +25,6 @@ class MockTestApiWebpartListGetItems{
     }
 
     public delete(id: number): Promise<void>{
-        console.log('delete');
         return new Promise<void>((resolve) => {
             let item = this._listItems.filter((m) => m.Id === id);
 	        this._listItems.splice(this._listItems.indexOf(item[0]), 1);

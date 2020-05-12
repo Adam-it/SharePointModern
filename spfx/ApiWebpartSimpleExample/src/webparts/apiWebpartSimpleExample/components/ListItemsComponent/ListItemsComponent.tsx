@@ -13,6 +13,7 @@ import IListItemsComponentState from './IListItemsComponentState';
 import ListItemsController from '../../controllers/ListItemsController';
 import ISPListItem from '../../model/ISPListItem';
 import styles from './ListItemsComponent.module.scss';
+import ListItemsControllerPnPJS from '../../controllers/ListItemsControllerPnPJS';
 
 class ListItemsComponent extends React.Component<IListItemsComponentProps, IListItemsComponentState> {
     private _selection: Selection;
@@ -45,6 +46,7 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
         this.state = {
             listItems: [],
             listItemsController: null,
+            listItemsControllerPnP: null,
             titleTextField: "",
             selectionDetails: this._getSelectionDetails(),
             selectedListItems: [],
@@ -80,10 +82,29 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
         });
     }
 
+    private _getPnPListItems = () => {
+        this.state.listItemsControllerPnP.getPnPListItems().then(listItems => {
+            this.setState({
+                listItems: listItems
+            });
+        });
+    }
+
     private _addListItems = () => {
         this.state.listItemsController.addListItems(this.state.titleTextField).then(result => {
             if (result) {
                 this._getListItems();
+                this.setState({
+                    titleTextField: ""
+                });
+            }
+        });
+    }
+
+    private _addPnPJSListItem = () => {
+        this.state.listItemsControllerPnP.addPnPListItem(this.state.titleTextField).then(result => {
+            if (result.data.Id) {
+                this._getPnPListItems();
                 this.setState({
                     titleTextField: ""
                 });
@@ -102,9 +123,22 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
         });
     }
 
+    private _deletePnPJSListItems = () => {
+        if (this.state.selectedListItems.length == 0)
+            alert("some items must be selected");
+
+        this.state.selectedListItems.forEach(item => {
+            this.state.listItemsControllerPnP.deletePnPListItem(item.Id).then(result => {
+                this._getPnPListItems();
+            });
+        });
+    }
+
     public componentDidMount() {
+        const { context } = this.props;
         this.setState({
-            listItemsController: new ListItemsController(Mapping.testApiWebpartList, this.props.context)
+            listItemsController: new ListItemsController(Mapping.testApiWebpartList, context),
+            listItemsControllerPnP: new ListItemsControllerPnPJS(Mapping.testApiWebpartList, context)
         });
     }
 
@@ -132,6 +166,17 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
                                     </Stack.Item>
                                     <Stack.Item>
                                         <DefaultButton text="deleteSelectedListItems()" onClick={this._deleteSelectedListItems} allowDisabledFocus />
+                                    </Stack.Item>
+                                </Stack>
+                                <Stack horizontal>
+                                    <Stack.Item>
+                                        <DefaultButton text="getPnPJSListItems()" onClick={this._getPnPListItems} allowDisabledFocus />
+                                    </Stack.Item>
+                                    <Stack.Item>
+                                        <DefaultButton text="addPnPJSListItem()" onClick={this._addPnPJSListItem} allowDisabledFocus />
+                                    </Stack.Item>
+                                    <Stack.Item>
+                                        <DefaultButton text="deletePnPJSListItem()" onClick={this._deletePnPJSListItems} allowDisabledFocus />
                                     </Stack.Item>
                                 </Stack>
                                 <p className={styles.subTitle}>{selectionDetails}</p>

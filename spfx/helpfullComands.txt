@@ -38,3 +38,12 @@ in order to prepare solution for shipping to sharepoint and to cdn use
 
 start pnp spfx yeoman generator
 > yo @pnp/spfx
+
+--------------------
+
+
+install PnP.js library to Your react project
+> npm install sp-pnp-js --save  
+
+install @pnp/sp
+> npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp @pnp/graph –save
