@@ -6,7 +6,8 @@ import {
     TextField,
     DetailsList,
     DetailsListLayoutMode,
-    Selection
+    Selection,
+    Label
 } from 'office-ui-fabric-react';
 import IListItemsComponentProps from './IListItemsComponentProps';
 import IListItemsComponentState from './IListItemsComponentState';
@@ -50,6 +51,7 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
             titleTextField: "",
             selectionDetails: this._getSelectionDetails(),
             selectedListItems: [],
+            labelText: "",
             columns
         };
     }
@@ -134,6 +136,15 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
         });
     }
 
+    private _getPnPJSGetCurrentUser = () => {
+        this.state.listItemsControllerPnP.getCurrentUser().then(result => {
+            console.log(result);
+            this.setState({
+                labelText: result.Title
+            });
+        });
+    }
+
     public componentDidMount() {
         const { context } = this.props;
         this.setState({
@@ -143,7 +154,7 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
     }
 
     public render() {
-        const { listItems, columns, titleTextField, selectionDetails } = this.state;
+        const { listItems, columns, titleTextField, selectionDetails, labelText } = this.state;
         return (
             <div className={styles.ListItemsComponent}>
                 <div className={styles.container}>
@@ -177,6 +188,12 @@ class ListItemsComponent extends React.Component<IListItemsComponentProps, IList
                                     </Stack.Item>
                                     <Stack.Item>
                                         <DefaultButton text="deletePnPJSListItem()" onClick={this._deletePnPJSListItems} allowDisabledFocus />
+                                    </Stack.Item>
+                                    <Stack.Item>
+                                        <DefaultButton text="getPnPJSGetCurrentUser()" onClick={this._getPnPJSGetCurrentUser} allowDisabledFocus />
+                                    </Stack.Item>
+                                    <Stack.Item>
+                                        <Label>{labelText}</Label>
                                     </Stack.Item>
                                 </Stack>
                                 <p className={styles.subTitle}>{selectionDetails}</p>

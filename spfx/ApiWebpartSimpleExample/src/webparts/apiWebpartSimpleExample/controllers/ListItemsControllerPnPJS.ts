@@ -1,6 +1,7 @@
-import { 
+import {
     sp,
-    IItemAddResult } from "@pnp/sp/presets/all";
+    IItemAddResult
+} from "@pnp/sp/presets/all";
 import ISPListItem from '../model/ISPListItem';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 
@@ -10,7 +11,7 @@ class ListItemsControllerPnPJS {
     private _maxNumberOfItems = 5;
 
     constructor(
-        listTitle: string, 
+        listTitle: string,
         context: WebPartContext) {
         try {
             if (!listTitle)
@@ -42,7 +43,13 @@ class ListItemsControllerPnPJS {
     }
 
     public deletePnPListItem(id: number): Promise<void> {
-        return sp.web.lists.getByTitle(this._listTitle).items.getById(id).delete();       
+        return sp.web.lists.getByTitle(this._listTitle).items.getById(id).delete();
+    }
+
+    public getCurrentUser(): Promise<any> {
+        return sp.web.currentUser.get().then((user) => {
+            return user;
+        });
     }
 }
 

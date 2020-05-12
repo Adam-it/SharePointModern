@@ -10,4 +10,5 @@ export default interface IListItemsComponentState {
     titleTextField: string;
     selectionDetails: string;
     selectedListItems: ISPListItem[];
+    labelText: string;
 }
