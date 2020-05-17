@@ -49,7 +49,7 @@ function Set-SiteList(
         {
             Throw New-Object System.FormatException  "OperationType is not supported"
         }
-        Show-Log -Level "INFO" -Message "Run setup xml -> SiteContent setup -> $OperationType $Name -> finished successfully"
+        Show-Log -Level "INFO" -Message "SiteContent setup -> $OperationType $Name -> finished successfully"
 	}
 	Catch
     {
@@ -70,11 +70,11 @@ function Private-CheckIfListExists([Parameter(Mandatory=$True)][string]$ListName
 		$List = Get-PnPList -Identity $ListName -ErrorAction 'silentlycontinue'
 		if($List -ne $null)
 		{
-			Show-Log -Level "INFO" -Message "Run setup xml -> SiteContent setup -> List already exists"
+			Show-Log -Level "INFO" -Message "SiteContent setup -> List already exists"
 		}
 		else
 		{
-			Show-Log -Level "INFO" -Message "Run setup xml -> SiteContent setup -> List does not exist"
+			Show-Log -Level "INFO" -Message "SiteContent setup -> List does not exist"
 		}
 	}
     Catch {

@@ -16,3 +16,9 @@ ContentType added via script and added columns to ContentType
 
 List added via script with ConentType
 ![](Images/List.png)
+
+Role added via script
+![](Images/Role.png)
+
+Grou added via script with custom Role
+![](Images/Group.png)

@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$Url = "<URL TO SITECOLLECTION>"
+$Url = "<URL>"
 
 Try
 {

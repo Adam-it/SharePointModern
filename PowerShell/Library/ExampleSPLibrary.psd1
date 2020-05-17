@@ -8,7 +8,9 @@
         'Helpers.psm1',
         'SiteContent.psm1',
         'Columns.psm1',
-        'ContentTypes.psm1')
+        'ContentTypes.psm1',
+        'Roles.psm1',
+        'Groups.psm1')
     FunctionsToExport = @(
         'Show-Log', 
         'Test-*',
