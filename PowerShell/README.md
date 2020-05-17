@@ -6,13 +6,13 @@ This is only an exmaple of usage of PnP library but for sure the best option to 
 
 ### exmaple:
 Example of running the script
-![](../Images/ExampleOfRunScript.png)
+![](Images/ExampleOfRunScript.png)
 
 Columns added via script
-![](../Images/Columns.png)
+![](Images/Columns.png)
 
 ContentType added via script and added columns to ContentType
-![](../Images/ContentType.png)
+![](Images/ContentType.png)
 
 List added via script with ConentType
-![](../Images/List.png)
+![](Images/List.png)
