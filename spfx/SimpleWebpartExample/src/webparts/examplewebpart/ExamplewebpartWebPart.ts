@@ -17,6 +17,8 @@ import {propertyPaneDropdownValues} from './propertyPane/propertyPaneDropdownVal
 import * as strings from 'ExamplewebpartWebPartStrings';
 import LayoutComponent from './components/LayoutComponent';
 
+import '../../../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
+
 export interface IExamplewebpartWebPartProps {
   description: string;
   propertyPaneSingleLineTextField: string;

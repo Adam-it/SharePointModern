@@ -41,9 +41,24 @@ start pnp spfx yeoman generator
 
 --------------------
 
-
+PnP.js
 install PnP.js library to Your react project
 > npm install sp-pnp-js --save  
 
 install @pnp/sp
-> npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp @pnp/graph –save
+> npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp @pnp/graph -–save
+or
+> npm install @pnp/sp @pnp/graph --save
+
+
+--------------------
+
+Fabric and Fluent
+fabric ui
+>npm install @microsoft/sp-office-ui-fabric-core
+fluent ui
+>npm install @fluentui/react
+
+fix of fabric css.. not working grid, icons etc
+include this to the root tsx file
+import '../../../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';

@@ -5,11 +5,11 @@ import ReactFabricControlsComponent from './ReactFabricControlsComponent/ReactFa
 
 class LayoutComponent extends React.Component {
 
-    handleClick = (message: string) => {
+    private handleClick = (message: string) => {
         alert(message);
-    };
+    }
 
-    render() {
+    public render() {
         return (
             <React.Fragment>
                 <ExampleComponent text="someText"/>
@@ -21,4 +21,4 @@ class LayoutComponent extends React.Component {
     }
 }
 
-export default LayoutComponent
+export default LayoutComponent;

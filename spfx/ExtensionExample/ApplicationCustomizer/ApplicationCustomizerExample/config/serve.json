@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://tenanttocheck.sharepoint.com/sites/SiteA/SitePages/TestApplicationExtension.aspx",
+      "customActions": {
+        "d7a26ba1-dc7c-4a29-a494-73046f307b88": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "testMessage": "Test message"
+          }
+        }
+      }
+    }
+  }
+}
