@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <Field ID="{4b9ca945-9117-4f15-8072-dc84c80b2f79}"
+            Name="SPFxCustom"
+            DisplayName="Custom"
+            Type="Number"
+            Min="0"
+            Required="FALSE"
+            Group="SPFx Columns"
+            ClientSideComponentId="35051da5-7178-4890-8a7f-5c915271c7ea">
+    </Field>
+</Elements>
