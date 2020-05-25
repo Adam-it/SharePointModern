@@ -55,9 +55,9 @@ or
 
 Fabric and Fluent
 fabric ui
->npm install @microsoft/sp-office-ui-fabric-core
+> npm install @microsoft/sp-office-ui-fabric-core
 fluent ui
->npm install @fluentui/react
+> npm install @fluentui/react
 
 fix of fabric css.. not working grid, icons etc
 include this to the root tsx file
