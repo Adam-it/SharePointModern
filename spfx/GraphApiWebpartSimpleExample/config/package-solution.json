@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "graph-api-webpart-simple-example-client-side-solution",
+    "id": "ca3bcd20-1153-41b4-8938-a59a4704dd7f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": true,
+    "webApiPermissionRequests": [{  
+      "resource": "Microsoft Graph",  
+      "scope": "User.ReadBasic.All"  
+    },
+    {
+        "resource": "Microsoft Graph",
+        "scope": "Sites.Read.All"
+    },
+    {  
+      "resource": "Microsoft Graph",  
+      "scope": "Sites.ReadWrite.All"  
+    }]
+  },
+  "paths": {
+    "zippedPackage": "solution/graph-api-webpart-simple-example.sppkg"
+  }
+}
