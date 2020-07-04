@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "graph-toolkit-webpart-simple-example-client-side-solution",
+    "id": "5a33a353-2433-48b1-9e3e-b87e24db45e9",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false,
+    "webApiPermissionRequests": [  
+      {  
+        "resource": "Microsoft Graph",  
+        "scope": "User.Read"  
+      },  
+      {  
+        "resource": "Microsoft Graph",  
+        "scope": "User.ReadBasic.All"  
+      },  
+      {  
+        "resource": "Microsoft Graph",  
+        "scope": "People.Read"  
+      },  
+      {  
+        "resource": "Microsoft Graph",  
+        "scope": "Calendars.Read"  
+      }  
+    ]  
+  },
+  "paths": {
+    "zippedPackage": "solution/graph-toolkit-webpart-simple-example.sppkg"
+  }
+}
