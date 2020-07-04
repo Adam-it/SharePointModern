@@ -1,17 +1,21 @@
 ## graph-toolkit-webpart-simple-example
 
-This is where you include your WebPart documentation.
+This projects uses graph toolkit components in webpart. The SPfx webpart is added to page and as an application in full page mode of page. The webpart is also possible to add as an Teams Tab
 
-### Building the code
+### exmaple:
+some graph toolkit components used
+![](../Images/GraphToolkitComponentsUsed.png)
 
-```bash
-git clone the repo
-npm i
-npm i -g gulp
-gulp
-```
+adding graph toolkit as full page application mode
+![](../Images/GraphToolkitWebpatInFullPageApplicationMode2.png)
 
-This package produces the following:
+graph toolkit webpart in full page application mode
+![](../Images/GraphToolkitWebpatInFullPageApplicationMode.png)
+
+graph toolkit webpart in page
+![](../Images/GraphToolkitWebpatOnPage.png)
+
+### This package produces the following:
 
 * lib/* - intermediate-stage commonjs build artifacts
 * dist/* - the bundled script, along with other resources
@@ -19,8 +23,8 @@ This package produces the following:
 
 ### Build options
 
-gulp clean - TODO
-gulp test - TODO
-gulp serve - TODO
-gulp bundle - TODO
-gulp package-solution - TODO
+gulp clean
+gulp test
+gulp serve
+gulp bundle
+gulp package-solution
