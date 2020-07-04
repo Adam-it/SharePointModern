@@ -62,3 +62,12 @@ fluent ui
 fix of fabric css.. not working grid, icons etc
 include this to the root tsx file
 import '../../../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
+
+
+------------------
+Graph toolkit 
+to install grap toolkit to spfx webpar use
+> npm install @microsoft/mgt  
+
+graph toolkit needs typescript 3+ so after that install
+> npm install typescript@3.1.6 
