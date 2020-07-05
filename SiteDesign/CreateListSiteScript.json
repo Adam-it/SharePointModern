@@ -1,0 +1,39 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",
+    "actions": [
+        {
+            "verb": "createSPList",
+            "listName": "Some Sample List",
+            "templateType": 100,
+            "subactions": [
+                {
+                    "verb": "setDescription",
+                    "description": "This is some sample list"
+                },
+                {
+                    "verb": "addSPField",
+                    "fieldType": "Text",
+                    "displayName": "Custom Txt field",
+                    "isRequired": false,
+                    "addToDefaultView": true
+                },
+                {
+                    "verb": "addSPField",
+                    "fieldType": "Number",
+                    "displayName": "Custom Number field",
+                    "addToDefaultView": true,
+                    "isRequired": true
+                },
+                {
+                    "verb": "addSPField",
+                    "fieldType": "User",
+                    "displayName": "Custom User field",
+                    "addToDefaultView": true,
+                    "isRequired": true
+                }
+            ]
+        }
+    ],
+    "bindata": {},
+    "version": 1
+}

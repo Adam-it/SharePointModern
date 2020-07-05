@@ -1,0 +1,35 @@
+***PnP Powershell
+
+use this command to get contents of json file to powershell param
+$script = Get-Content 'C:\workspace\SharePointModern\SharePointModern\SiteDesign\CreateListSiteScript.json' | Out-String
+
+use this command to add a new site script to tenant (the connection needs to be set to tenant admin) based on a json from $script file
+Add-PnPSiteScript -Title "AddCustomListSiteScript" -Description "Sample Site Script that adds custom list" -Content $script
+
+use this command to get all site scripts added to tenant
+Get-PnPSiteScript
+
+use this command to remove site script from tenant
+Remove-PnPSiteScript -Identity 1b1fad4a-78f8-4cc8-8427-6699aa109bfb
+
+use this command to add new site design with couple of site scripts attached to it. 
+Add-PnPSiteDesign -Title "SampleSiteDesign" -SiteScriptIds "872c33ea-3113-4c47-8ecc-a6ad3bb18034","1b1fad4a-78f8-4cc8-8427-6699aa109bfb" -Description "Sample Site Design" -WebTemplate CommunicationSite
+
+use this command to get all site  design added to tenant
+Get-PnPSiteDesign
+
+use this command to remove a site design from tenant
+Remove-PnPSiteDesign -Identity ee603d6b-8949-43c3-87c1-9fb2297485ca
+
+
+*** OF 365 CLI
+run of365 to oppen the command window
+type
+> login
+to login to tenant
+
+nice to use commands
+spo sitedesign list
+spo sitedesign apply
+spo sitedesign add --title "Contoso team site" --webTemplate TeamSite --siteScripts "19b0e1b2-e3d1-473f-9394-f08c198ef43e,b2307a39-e878-458b-bc90-03bc578531d6"
+spo sitedesign remove --id 2c1ba4c4-cd9b-4417-832f-92a34bc34b2a
