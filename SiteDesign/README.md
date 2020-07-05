@@ -4,16 +4,16 @@ This project is a set of example site scripts (json files) and commands which al
 
 ### exmaple:
 pick site desings from the ones present in tenant 
-![](../Images/PickAviableSiteDesign.png)
+![](Images/PickAviableSiteDesign.png)
 
 site design running on the site
-![](../Images/SiteDesignRunning.png)
+![](Images/SiteDesignRunning.png)
 
 pick hub site to which site will be applied
-![](../Images/AddSiteToHubSiteWhichWillApplySiteDesign.png)
+![](Images/AddSiteToHubSiteWhichWillApplySiteDesign.png)
 
 result of applied site design on site which was added to hub site. Adding to hub site automatically applied site design
-![](../Images/AppliedSiteDesignOnSiteAddedToHubSite.png)
+![](Images/AppliedSiteDesignOnSiteAddedToHubSite.png)
 
 ### MSDN 
 
