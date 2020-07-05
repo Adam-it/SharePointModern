@@ -1,0 +1,11 @@
+Check dotnet core installation type
+> dotnet
+
+Create new console app
+> dotnet new console
+
+To run app
+> Dotnet run
+
+To restore nuget packages after installing them
+> dotnet restore

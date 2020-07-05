@@ -1,0 +1,10 @@
+# VS Code files
+.vscode
+
+# Build generated files
+bin
+obj
+
+# Visual Studio files
+.ntvs_analysis.dat
+.vs
