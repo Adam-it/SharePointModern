@@ -11,11 +11,11 @@ import { IReactFabricControlsComponentProps } from './IReactFabricControlsCompon
 
 class ReactFabricControlsComponent extends React.Component<IReactFabricControlsComponentProps> {
 
-    alterClicked = () => {
+    public alterClicked = () => {
         alert("clicked");
     }
 
-    menuProps: IContextualMenuProps = {
+    public menuProps: IContextualMenuProps = {
         // For example: disable dismiss if shift key is held down while dismissing
         onDismiss: ev => {
           if (ev && ev.shiftKey) {
@@ -37,18 +37,18 @@ class ReactFabricControlsComponent extends React.Component<IReactFabricControlsC
         directionalHintFixed: true,
       };
 
-    addIcon: IIconProps = { iconName: 'Add' };
+    public addIcon: IIconProps = { iconName: 'Add' };
 
-    getMenu(props: IContextualMenuProps): JSX.Element {
+    public getMenu(props: IContextualMenuProps): JSX.Element {
         // Customize contextual menu with menuAs
         return <ContextualMenu {...props} />;
     }
       
-    onMenuClick(ev?: React.SyntheticEvent<any>) {
+    public onMenuClick(ev?: React.SyntheticEvent<any>) {
         console.log(ev);
     }
 
-    render() {
+    public render() {
         const { clickHandler } = this.props;
 
         return (
