@@ -34,6 +34,7 @@ jobs:
     
     # gulp bundle and package solution
     - name: Bundle and package
+      working-directory: spfx/SimpleWebpartExample/
       run: |
         gulp bundle --ship
         gulp package-solution --ship    
@@ -51,7 +52,7 @@ jobs:
       with:
         APP_FILE_PATH: spfx/SimpleWebpartExample/sharepoint/solution/${{ env.SPPKG_FILE_NAME }}
         # SKIP_FEATURE_DEPLOYMENT: true
-        # OVERWRITE: true
+        OVERWRITE: true
     
     # Send an email using action-cli-runscript
     - name: Office 365 CLI Send email
