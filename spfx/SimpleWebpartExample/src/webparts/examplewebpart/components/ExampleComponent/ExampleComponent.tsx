@@ -3,9 +3,9 @@ import { IExampleComponent } from './IExampleComponent';
 
 class ExampleComponent extends React.Component<IExampleComponent> {
 
-    state = {
+    public state = {
         text : "default"
-    }
+    };
 
     constructor(props)
     {
@@ -15,7 +15,7 @@ class ExampleComponent extends React.Component<IExampleComponent> {
             this.state.text = props.text;
     }
 
-    render() {
+    public render() {
         return (
             <div>
                 empty component for copy paste {this.state.text}
