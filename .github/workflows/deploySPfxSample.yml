@@ -52,10 +52,10 @@ jobs:
     
     # Deploy package to tenant using action-cli-deploy
     - name: Office 365 CLI Deploy
-      uses: pnp/action-cli-deploy@v1.0.0
+      uses: pnp/action-cli-deploy@v1.0.1
       with:
         APP_FILE_PATH: spfx/SimpleWebpartExample/sharepoint/solution/${{ env.SPPKG_FILE_NAME }}
-        # SKIP_FEATURE_DEPLOYMENT: true
+        SKIP_FEATURE_DEPLOYMENT: true
         OVERWRITE: true
     
     # Send an email using action-cli-runscript
