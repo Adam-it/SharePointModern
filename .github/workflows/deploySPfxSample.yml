@@ -25,6 +25,7 @@ jobs:
     # npm install
     - name: Run npm ci
       run: npm ci
+      working-directory: /spfx/SimpleWebpartExample/
     
     # install gulp if mac
     - name: Run npm i -g gulp
