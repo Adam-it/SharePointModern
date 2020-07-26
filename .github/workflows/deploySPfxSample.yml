@@ -1,6 +1,10 @@
 name: SPFx CICD with Office 365 CLI
 
-on: push
+on:
+  push:
+    branches:
+      - master
+
 
 # Variables that are available for all the jobs in the workflow
 env:
