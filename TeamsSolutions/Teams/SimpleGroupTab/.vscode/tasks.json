@@ -1,0 +1,76 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ensureTeamsQuitWindows",
+      "detail": "Ensure Microsoft Teams isn't running",
+      "type": "shell",
+      "command": "${workspaceRoot}/.vscode/quitTeams.cmd",
+      "isBackground": true,
+      "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true,
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": true
+      }
+    },
+    {
+      "label": "deployTeamsWindows",
+      "detail": "Ensure Microsoft Teams isn't running",
+      "type": "shell",
+      "command": "${workspaceRoot}/.vscode/launchTeams.cmd",
+      "args": [
+        "${workspaceRoot}/.publish/Development.zip"
+      ],
+      "isBackground": true,
+      "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true,
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": true
+      }
+    },
+    {
+      "label": "ensureTeamsQuitOSX",
+      "detail": "Ensure Microsoft Teams isn't running",
+      "type": "shell",
+      "command": "pkill 'Microsoft Teams'",
+      "presentation": {
+          "echo": false,
+          "reveal": "silent",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": false
+      }
+    },
+    {
+      "label": "deployTeamsOSX",
+      "detail": "Ensure Microsoft Teams isn't running",
+      "type": "shell",
+      "command": "open -a 'Microsoft Teams' --args '--installAppPackage=${workspaceRoot}/.publish/Development.zip'",
+      "presentation": {
+          "echo": false,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": false
+      }
+    },
+    {
+      "label": "debugTeamsWindows",
+      "dependsOrder": "sequence",
+      "dependsOn": ["ensureTeamsQuitWindows", "deployTeamsWindows"]
+    },
+    {
+      "label": "debugTeamsOSX",
+      "dependsOrder": "sequence",
+      "dependsOn": ["ensureTeamsQuitOSX", "deployTeamsOSX"]
+    }
+  ]
+}
