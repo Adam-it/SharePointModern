@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "s-pfx-teams-tab-webpart-client-side-solution",
+    "id": "e588e967-6f10-448d-a3a8-1b723e51dcf5",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/s-pfx-teams-tab-webpart.sppkg"
+  }
+}
