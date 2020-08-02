@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" time="6.145">
+  <testsuite name="Enzyme basics" errors="0" failures="0" skipped="0" timestamp="2020-08-02T12:13:37" time="5.054" tests="3">
+    <testcase classname="Enzyme basics checking public methos logc" name="Enzyme basics checking public methos logc" time="0.061">
+    </testcase>
+    <testcase classname="Enzyme basics should root web part element exists" name="Enzyme basics should root web part element exists" time="0.004">
+    </testcase>
+    <testcase classname="Enzyme basics should have the correct title" name="Enzyme basics should have the correct title" time="0.003">
+    </testcase>
+  </testsuite>
+</testsuites>
