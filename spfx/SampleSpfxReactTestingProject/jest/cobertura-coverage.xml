@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage lines-valid="10" lines-covered="10" line-rate="1" branches-valid="2" branches-covered="2" branch-rate="1" timestamp="1596370423096" complexity="0" version="0.1">
+  <sources>
+    <source>C:\workspace\SharePointModern\SharePointModern\spfx\SampleSpfxReactTestingProject</source>
+  </sources>
+  <packages>
+    <class name="SampleTesting.tsx" filename="src\webparts\sampleTesting\components\SampleTesting.tsx" line-rate="1" branch-rate="1">
+      <methods>
+        <method name="(anonymous_6)" hits="1" signature="()V">
+          <lines>
+            <line number="6" hits="1"/>
+          </lines>
+        </method>
+        <method name="SampleTesting" hits="3" signature="()V">
+          <lines>
+            <line number="8" hits="3"/>
+          </lines>
+        </method>
+        <method name="(anonymous_8)" hits="1" signature="()V">
+          <lines>
+            <line number="15" hits="1"/>
+          </lines>
+        </method>
+        <method name="(anonymous_9)" hits="4" signature="()V">
+          <lines>
+            <line number="21" hits="4"/>
+          </lines>
+        </method>
+      </methods>
+      <lines>
+        <line number="1" hits="1" branch="false"/>
+        <line number="2" hits="1" branch="false"/>
+        <line number="6" hits="1" branch="false"/>
+        <line number="9" hits="3" branch="true" condition-coverage="100% (2/2)"/>
+        <line number="10" hits="3" branch="false"/>
+        <line number="15" hits="3" branch="false"/>
+        <line number="16" hits="1" branch="false"/>
+        <line number="21" hits="1" branch="false"/>
+        <line number="22" hits="4" branch="false"/>
+        <line number="36" hits="1" branch="false"/>
+      </lines>
+    </class>
+  </packages>
+</coverage>
