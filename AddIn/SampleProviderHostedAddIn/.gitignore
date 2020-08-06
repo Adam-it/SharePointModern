@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Build generated files
+dist
+lib
+solution
+temp
+*.sppkg
+
+# packages
+packages
+
+# Visual Studio files
+.ntvs_analysis.dat
+.vs
+bin
+obj
