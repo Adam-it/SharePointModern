@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
+<App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest" Name="SampleProviderHostedAddIn" ProductID="{1d33872c-91f3-4b86-967d-cc2b5211a0f4}" Version="1.0.0.0" SharePointMinVersion="16.0.0.0">
+  <Properties>
+    <Title>SampleProviderHostedAddIn</Title>
+    <StartPage>https://localhost:44302/?{StandardTokens}</StartPage>
+  </Properties>
+  <AppPrincipal>
+    <AutoDeployedWebApplication>
+      <DebugInfo ClientSecret="L5Wi+xvSzVZpgDAJyNmossD8hdd0+dc6UInjZggJuMg=" AppUrl="https://localhost:44302/" />
+    </AutoDeployedWebApplication>
+  </AppPrincipal>
+</App>
