@@ -1,0 +1,22 @@
+Test_7F478737223C4B69 As AppTest:
+
+    "'f3588d90-b1dd-44b8-8c90-d72cdd843e8d' As TestSuite":
+        Description: =""
+        DisplayName: ="Zestaw"
+
+        "'2ab39b78-647e-4cd0-a86f-017dfe75fbd7' As TestCase":
+            Description: =""
+            DisplayName: ="Działanie Case"
+
+            Step1 As TestStep:
+                Description: ="Navigate(AddItemScreen)"
+                Value: =Navigate(AddItemScreen)
+
+            Step2 As TestStep:
+                Description: ="titleInput.Text = ""aaa"""
+                Value: =titleInput.Text = "aaa"
+
+            Step3 As TestStep:
+                Description: ="Su"
+                Value: =submit
+

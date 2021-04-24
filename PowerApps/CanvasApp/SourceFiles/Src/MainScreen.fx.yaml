@@ -1,0 +1,77 @@
+MainScreen As screen:
+    Fill: =RGBA(237, 237, 237, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Title As label:
+        Height: =56
+        Size: =22
+        Text: ="Data from SharePoin List"
+        Width: =370
+        X: =15
+        Y: =55
+        ZIndex: =1
+
+    "List As gallery.'BrowseLayout_Horizontal_TwoTextOneImageVariant_ver4.0'":
+        Height: =427
+        Items: =DataSourceList1
+        TemplatePadding: =0
+        TemplateSize: =Min(440, Self.Height - 60)
+        Width: =1351
+        X: =15
+        Y: =111
+        ZIndex: =2
+
+        Image1 As image:
+            Height: =296
+            Image: =ThisItem.SomePicture
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth - 32
+            X: =16
+            Y: =12
+            ZIndex: =1
+
+        Title1 As label:
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Tytuł
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 64
+            X: =32
+            Y: =Image1.Y + Image1.Height + 16
+            ZIndex: =2
+
+        Subtitle1 As label:
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =PlainText(ThisItem.Description)
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Title1.Width
+            X: =Title1.X
+            Y: =Title1.Y + Title1.Height + 8
+            ZIndex: =3
+
+    GoToAddItem As button:
+        Height: =66
+        OnSelect: =Navigate(AddItemScreen,ScreenTransition.Fade)
+        Text: ="Add New Item"
+        Width: =188
+        X: =45
+        Y: =579
+        ZIndex: =3
+
+    refresh As button:
+        OnSelect: =Refresh(DataSourceList1)
+        Text: ="refresh"
+        X: =1171
+        Y: =71
+        ZIndex: =4
+

@@ -1,0 +1,48 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+    "CdpRevision": {
+      "BaseUrl": "/",
+      "LastChangedTimeString": "2021-04-12T16:36:26.2530000Z",
+      "RevisionNumber": 1
+    },
+    "ConnectedDataSourceInfoNameMapping": {
+      "{Attachments}": "Załączniki",
+      "{Attachments}@odata.type": "{Attachments} ({Attachments}@odata.type)",
+      "{FilenameWithExtension}": "Nazwa pliku z rozszerzeniem",
+      "{FullPath}": "Pełna ścieżka",
+      "{HasAttachments}": "Ma załączniki",
+      "{Identifier}": "Identyfikator ({Identifier})",
+      "{IsFolder}": "JestFolderem",
+      "{Link}": "Link do elementu",
+      "{ModerationComment}": "Komentarze skojarzone z zatwierdzaniem zawartości tego elementu listy",
+      "{ModerationStatus}": "Stan zatwierdzania zawartości",
+      "{Name}": "Nazwa",
+      "{Path}": "Ścieżka folderu",
+      "{Thumbnail}": "Thumbnail",
+      "{TriggerWindowEndToken}": "Token końca przedziału czasu",
+      "{TriggerWindowStartToken}": "Token początku przedziału czasu",
+      "{VersionNumber}": "Numer wersji",
+      "Author": "Utworzone przez",
+      "Author#Claims": "Utworzone przez Claims",
+      "ComplianceAssetId": "Identyfikator elementu zawartości zgodności",
+      "Created": "Utworzony",
+      "Description": "Description",
+      "Editor": "Zmodyfikowane przez",
+      "Editor#Claims": "Zmodyfikowane przez Claims",
+      "ID": "Identyfikator (ID)",
+      "Modified": "Zmodyfikowane",
+      "SomeChoiceColumn": "SomeChoiceColumn",
+      "SomeChoiceColumn#Id": "SomeChoiceColumn Id",
+      "SomeDateField": "SomeDateField",
+      "SomePicture": "SomePicture",
+      "Title": "Tytuł"
+    },
+    "DatasetName": "https://tenanttocheck.sharepoint.com/sites/DevSiteForPowerApp",
+    "EncodeDataset": true,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "DataSourceList1",
+    "Type": "ConnectedDataSourceInfo"
+  }
+]

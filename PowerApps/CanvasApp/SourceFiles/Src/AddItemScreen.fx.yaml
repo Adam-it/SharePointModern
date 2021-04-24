@@ -1,0 +1,58 @@
+AddItemScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    GoBack As arrow.backArrow:
+        OnSelect: =Back(ScreenTransition.CoverRight)
+        X: =18
+        Y: =21
+        ZIndex: =1
+
+    screenTitle As label:
+        Size: =22
+        Text: ="Add New Item"
+        Width: =310
+        X: =496
+        Y: =31
+        ZIndex: =2
+
+    titleLabel As label:
+        Text: ="Title"
+        X: =18
+        Y: =93
+        ZIndex: =3
+
+    descriptionLabel As label:
+        Text: ="Descritpion"
+        X: =18
+        Y: =212
+        ZIndex: =4
+
+    titleInput As text:
+        Default: =""
+        Height: =46
+        HintText: ="enter item title"
+        Width: =1306
+        X: =18
+        Y: =133
+        ZIndex: =5
+
+    descriptionInput As richTextEditor:
+        Default: =
+        Height: =251
+        Width: =1294
+        X: =30
+        Y: =264
+        ZIndex: =6
+
+    submit As button:
+        Height: =73
+        OnSelect: |-
+            =Collect(DataSourceList1, { Title: titleInput.Text, Description: descriptionInput.HtmlText });
+            Back(ScreenTransition.CoverRight)
+        Text: ="Submit"
+        Width: =266
+        X: =1056
+        Y: =551
+        ZIndex: =7
+
