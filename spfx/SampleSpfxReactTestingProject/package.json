@@ -38,7 +38,7 @@
     "@types/enzyme": "3.10.5",
     "@types/jest": "26.0.8",
     "@types/mocha": "2.2.38",
-    "ajv": "~5.2.2",
+    "ajv": "~6.12.3",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",
     "gulp": "~3.9.1",
